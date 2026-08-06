@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KupataLove — Find Your Love with AI-Powered Matching</title>
+  <meta name="description" content="KupataLove is the next-generation dating app powered by AI. Chat in any language, get matched intelligently, and find your perfect partner.">
+  <meta name="keywords" content="dating app, AI matching, multilingual dating, find love, online dating">
+  <meta property="og:title" content="KupataLove — Find Your Love">
+  <meta property="og:description" content="AI-powered dating with automatic translation. Connect across languages, find love across borders.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💖</text></svg>">
+  <link rel="stylesheet" href="/css/globals.css">
+  <link rel="stylesheet" href="/css/landing.css">
+</head>
+<body class="landing-body">
+  <!-- Animated background -->
+  <div class="mesh-bg"></div>
+
+  <!-- Floating particles -->
+  <div class="particles" id="particles"></div>
+
+  <div class="landing-content">
+    <!-- Navbar -->
+    <nav class="landing-nav" id="landing-nav">
+      <div class="nav-logo">
+        <div class="logo-icon">💖</div>
+        <span class="logo-text">KupataLove</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#features" data-i18n="features">Features</a></li>
+        <li><a href="#pricing" data-i18n="pricing">Pricing</a></li>
+        <li><a href="#how-it-works" data-i18n="how_it_works">How It Works</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="/auth.html" class="btn btn-outline btn-sm" data-i18n="login">Login</a>
+        <a href="/auth.html?tab=register" class="btn btn-primary btn-sm" data-i18n="get_started">Get Started</a>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span>🤖</span>
+          <span data-i18n="ai_powered_badge">AI-Powered Love Matching</span>
+        </div>
+        <h1 class="hero-title">
+          <span class="line1" data-i18n="hero_title_1">Find Love</span>
+          <br>
+          <span class="line2" data-i18n="hero_title_2">Across Languages</span>
+        </h1>
+        <p class="hero-desc" data-i18n="hero_desc">
+          KupataLove uses advanced AI to match you with your perfect partner. Chat in your language — our real-time translator bridges every conversation.
+        </p>
+        <div class="hero-actions">
+          <a href="/auth.html?tab=register" class="btn btn-primary btn-lg" id="cta-start">
+            💖 <span data-i18n="start_for_free">Start for Free</span>
+          </a>
+          <a href="#how-it-works" class="btn btn-outline btn-lg" data-i18n="see_how_it_works">See How It Works</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="stat-number">2M+</div>
+            <div class="stat-label" data-i18n="stat_members">Active Members</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">20+</div>
+            <div class="stat-label" data-i18n="stat_languages">Languages</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">150K+</div>
+            <div class="stat-label" data-i18n="stat_couples">Happy Couples</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <!-- Floating info cards -->
+        <div class="floating-cards">
+          <div class="float-card match">
+            <span>💕</span>
+            <span data-i18n="new_match_card">New Match!</span>
+          </div>
+          <div class="float-card translate">
+            <span>🌐</span>
+            <span data-i18n="translated_card">Auto-translated</span>
+          </div>
+          <div class="float-card ai">
+            <span>🤖</span>
+            <span>94% Match</span>
+          </div>
+        </div>
+
+        <!-- Phone mockup -->
+        <div class="phone-mockup">
+          <div class="phone-card" id="demo-card">
+            <div class="card-image-placeholder" style="background:linear-gradient(135deg,#ff3d6e,#6c63ff);height:100%;display:flex;align-items:center;justify-content:center;font-size:5rem;">😊</div>
+            <div class="phone-card-bg"></div>
+            <div class="phone-card-info">
+              <div class="phone-card-name">Sofia, 26</div>
+              <div class="phone-card-age">🇫🇷 Paris</div>
+              <div class="phone-card-dist">🤖 92% AI Match</div>
+            </div>
+          </div>
+          <div class="phone-actions">
+            <button class="phone-btn phone-btn-no">✕</button>
+            <button class="phone-btn phone-btn-super">⭐</button>
+            <button class="phone-btn phone-btn-yes">💚</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="section" id="features">
+      <div class="section-header">
+        <span class="section-label" data-i18n="why_kupatalove">Why KupataLove</span>
+        <h2 data-i18n="features_title">Everything You Need to Find Love</h2>
+        <p style="color:var(--text-secondary);margin-top:12px;max-width:500px;margin-inline:auto;" data-i18n="features_desc">The most advanced dating platform with AI at its core.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon fi-pink">🤖</div>
+          <h3 class="feature-title" data-i18n="feat_ai_title">AI Compatibility Engine</h3>
+          <p class="feature-desc" data-i18n="feat_ai_desc">Our AI analyzes your personality, interests, and communication style to find your most compatible matches with scores up to 99%.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon fi-purple">🌐</div>
+          <h3 class="feature-title" data-i18n="feat_translate_title">Real-Time Translation</h3>
+          <p class="feature-desc" data-i18n="feat_translate_desc">Chat with anyone on earth. Messages are instantly translated to your partner's language while preserving emotion and tone.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon fi-gold">💬</div>
+          <h3 class="feature-title" data-i18n="feat_icebreaker_title">AI Icebreakers</h3>
+          <p class="feature-desc" data-i18n="feat_icebreaker_desc">Never struggle to start a conversation. Our AI crafts personalized icebreakers based on your match's unique profile.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon fi-green">💚</div>
+          <h3 class="feature-title" data-i18n="feat_swipe_title">Smart Swipe</h3>
+          <p class="feature-desc" data-i18n="feat_swipe_desc">Intuitive card-based discovery with like, pass, and super like. Mutual likes instantly create a match with a celebration!</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon fi-blue">🔒</div>
+          <h3 class="feature-title" data-i18n="feat_safe_title">Safe & Verified</h3>
+          <p class="feature-desc" data-i18n="feat_safe_desc">Photo verification, report & block system, and 24/7 moderation keep the community safe and genuine.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon fi-red">❤️</div>
+          <h3 class="feature-title" data-i18n="feat_multilang_title">20+ Languages</h3>
+          <p class="feature-desc" data-i18n="feat_multilang_desc">The entire app interface adapts to your language at registration. Love has no language barriers here.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="section" id="how-it-works" style="background:rgba(255,255,255,0.02);border-radius:32px;">
+      <div class="section-header">
+        <span class="section-label" data-i18n="simple_steps">Simple Steps</span>
+        <h2 data-i18n="how_title">Find Love in 3 Easy Steps</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:32px;max-width:900px;margin:0 auto;">
+        <div style="text-align:center;padding:24px;">
+          <div style="width:72px;height:72px;background:var(--grad-primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 20px;box-shadow:var(--shadow-primary);">1</div>
+          <h3 style="margin-bottom:10px;" data-i18n="step1_title">Create Your Profile</h3>
+          <p style="color:var(--text-secondary);font-size:0.9rem;" data-i18n="step1_desc">Sign up, pick your language, add photos, and let our AI learn your personality in minutes.</p>
+        </div>
+        <div style="text-align:center;padding:24px;">
+          <div style="width:72px;height:72px;background:var(--grad-purple);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 20px;box-shadow:0 8px 24px rgba(108,99,255,0.3);">2</div>
+          <h3 style="margin-bottom:10px;" data-i18n="step2_title">Swipe & Match</h3>
+          <p style="color:var(--text-secondary);font-size:0.9rem;" data-i18n="step2_desc">Browse AI-ranked profiles, swipe right to like, and when it's mutual — it's a match! 🎉</p>
+        </div>
+        <div style="text-align:center;padding:24px;">
+          <div style="width:72px;height:72px;background:var(--grad-gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 20px;box-shadow:0 8px 24px rgba(245,166,35,0.3);">3</div>
+          <h3 style="margin-bottom:10px;" data-i18n="step3_title">Chat & Connect</h3>
+          <p style="color:var(--text-secondary);font-size:0.9rem;" data-i18n="step3_desc">Chat freely — every message is translated automatically. Language is never a barrier to love.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="section" id="pricing">
+      <div class="section-header">
+        <span class="section-label" data-i18n="choose_plan">Choose Your Plan</span>
+        <h2 data-i18n="pricing_title">Simple, Transparent Pricing</h2>
+        <p style="color:var(--text-secondary);margin-top:12px;" data-i18n="pricing_desc">Start free, upgrade anytime.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-plan" data-i18n="free_plan">Free</div>
+          <div class="pricing-price"><span class="gradient-text">$0</span></div>
+          <div class="pricing-period" data-i18n="forever">Forever</div>
+          <ul class="pricing-features">
+            <li data-i18n="feat_10_likes">10 likes per day</li>
+            <li data-i18n="feat_basic_matching">Basic matching</li>
+            <li data-i18n="feat_chat">Chat with matches</li>
+            <li data-i18n="feat_translation">Auto-translation</li>
+          </ul>
+          <a href="/auth.html?tab=register" class="btn btn-outline w-full" data-i18n="get_started_free">Get Started Free</a>
+        </div>
+        <div class="pricing-card popular">
+          <div class="popular-badge" data-i18n="most_popular">Most Popular</div>
+          <div class="pricing-plan" data-i18n="gold_plan">Gold</div>
+          <div class="pricing-price"><sup>$</sup><span class="gradient-text">9.99</span></div>
+          <div class="pricing-period" data-i18n="per_month">per month</div>
+          <ul class="pricing-features">
+            <li data-i18n="feat_unlimited_likes">Unlimited likes</li>
+            <li data-i18n="feat_see_likes">See who liked you</li>
+            <li data-i18n="feat_read_receipts">Read receipts</li>
+            <li data-i18n="feat_rewind">Rewind last swipe</li>
+          </ul>
+          <a href="/auth.html?tab=register" class="btn btn-primary w-full" data-i18n="get_gold">Get Gold 💛</a>
+        </div>
+        <div class="pricing-card">
+          <div class="pricing-plan" data-i18n="platinum_plan">Platinum</div>
+          <div class="pricing-price"><sup>$</sup><span style="background:var(--grad-purple);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:3rem;font-weight:800;">19.99</span></div>
+          <div class="pricing-period" data-i18n="per_month">per month</div>
+          <ul class="pricing-features">
+            <li data-i18n="feat_all_gold">All Gold features</li>
+            <li data-i18n="feat_ai_boost">AI priority boost</li>
+            <li data-i18n="feat_super_likes">5 Super Likes/day</li>
+            <li data-i18n="feat_ai_icebreaker">AI icebreakers per match</li>
+          </ul>
+          <a href="/auth.html?tab=register" class="btn btn-secondary w-full" data-i18n="get_platinum">Get Platinum 💜</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+      <div class="cta-bg"></div>
+      <div class="cta-content">
+        <h2 data-i18n="cta_title">Ready to Find Your Love?</h2>
+        <p data-i18n="cta_desc">Join millions of people who found meaningful connections on KupataLove. Your story starts here.</p>
+        <a href="/auth.html?tab=register" class="btn btn-primary btn-lg">
+          💖 <span data-i18n="join_now">Join KupataLove Now</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="landing-footer">
+      <div class="footer-logo">💖 KupataLove</div>
+      <div class="footer-links">
+        <a href="#" data-i18n="privacy">Privacy</a>
+        <a href="#" data-i18n="terms">Terms</a>
+        <a href="#" data-i18n="safety">Safety</a>
+        <a href="#" data-i18n="contact">Contact</a>
+      </div>
+      <div class="footer-copy">© 2024 KupataLove. All rights reserved.</div>
+    </footer>
+  </div>
+
+  <!-- Toast container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="/js/i18n.js"></script>
+  <script src="/js/api.js"></script>
+  <script>
+    // Init i18n on landing page
+    window.KL_I18n.initI18n();
+
+    // Navbar scroll effect
+    const nav = document.getElementById('landing-nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Floating particles
+    const particleContainer = document.getElementById('particles');
+    const colors = ['#ff3d6e', '#6c63ff', '#ffd166', '#22c55e', '#ff7ab5'];
+    for (let i = 0; i < 20; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const size = 4 + Math.random() * 8;
+      p.style.cssText = `
+        left: ${Math.random() * 100}%;
+        width: ${size}px;
+        height: ${size}px;
+        background: ${colors[Math.floor(Math.random() * colors.length)]};
+        animation-duration: ${8 + Math.random() * 12}s;
+        animation-delay: ${Math.random() * 8}s;
+      `;
+      particleContainer.appendChild(p);
+    }
+
+    // Redirect logged-in users to app
+    const { getUser } = window.KL_API;
+    if (getUser() && localStorage.getItem('kl_access_token')) {
+      // optional: uncomment to auto-redirect
+      // window.location.href = '/app.html';
+    }
+
+    // Check if coming from register link
+    const params = new URLSearchParams(location.search);
+    if (params.get('tab') === 'register') {
+      window.location.href = '/auth.html?tab=register';
+    }
+  </script>
+</body>
+</html>

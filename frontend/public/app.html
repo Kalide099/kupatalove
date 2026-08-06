@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KupataLove — Discover</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💖</text></svg>">
+  <link rel="stylesheet" href="/css/globals.css">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body class="app-body">
+
+  <!-- App Layout -->
+  <div class="app-layout">
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+      <div class="sidebar-logo">💖</div>
+      <ul class="sidebar-nav">
+        <li class="nav-item">
+          <button class="nav-btn active" data-tab="discover" id="nav-discover">
+            <span class="nav-icon">🔥</span>
+            <span class="nav-label" data-i18n="discover">Discover</span>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-btn" data-tab="matches" id="nav-matches">
+            <span class="nav-icon">💬</span>
+            <span class="nav-label" data-i18n="matches">Matches</span>
+            <span class="nav-badge hidden" id="matches-badge">0</span>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-btn" data-tab="likes" id="nav-likes">
+            <span class="nav-icon">❤️</span>
+            <span class="nav-label" data-i18n="likes">Likes</span>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-btn" data-tab="profile" id="nav-profile">
+            <span class="nav-icon">👤</span>
+            <span class="nav-label" data-i18n="profile">Profile</span>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-btn" data-tab="subscription" id="nav-subscription">
+            <span class="nav-icon">💛</span>
+            <span class="nav-label" data-i18n="premium">Premium</span>
+          </button>
+        </li>
+      </ul>
+      <div class="sidebar-bottom">
+        <div style="position:relative;">
+          <button class="nav-btn" id="btn-user-menu" style="width:100%">
+            <img id="sidebar-avatar" class="avatar avatar-sm" src="" alt="" style="display:none">
+            <span class="nav-icon" id="sidebar-avatar-icon">😊</span>
+            <span class="nav-label" id="sidebar-user-name"></span>
+          </button>
+          <div id="user-menu-dropdown" class="hidden" style="position:absolute;bottom:100%;left:0;right:0;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-md);">
+            <button id="btn-logout" style="width:100%;padding:12px 16px;text-align:left;color:var(--text-muted);font-size:0.9rem;display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;font-family:inherit;" data-i18n="logout">🚪 Logout</button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="app-main">
+
+      <!-- ═══ DISCOVER TAB ═══ -->
+      <div class="app-tab active" id="tab-discover">
+        <div class="discover-container">
+          <div class="discover-header">
+            <h1 class="discover-title">💖 <span data-i18n="discover">Discover</span></h1>
+            <div id="likes-counter" style="font-size:0.82rem;color:var(--text-muted);"></div>
+          </div>
+
+          <!-- Card Stack -->
+          <div class="card-stack" id="card-stack">
+            <div style="display:flex;align-items:center;justify-content:center;height:100%;"><div class="spinner"></div></div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="swipe-actions">
+            <button class="action-btn btn-rewind" id="btn-rewind" title="Rewind">↩️</button>
+            <button class="action-btn btn-dislike" id="btn-dislike" title="Pass">✕</button>
+            <button class="action-btn btn-like" id="btn-like" title="Like">💚</button>
+            <button class="action-btn btn-superlike" id="btn-superlike" title="Super Like">⭐</button>
+            <button class="action-btn btn-boost" id="btn-boost" title="Boost">⚡</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ MATCHES TAB ═══ -->
+      <div class="app-tab" id="tab-matches">
+        <!-- Matches Panel -->
+        <div id="matches-panel" style="width:100%;max-width:680px;margin:0 auto;">
+          <div class="matches-header">
+            <h2 data-i18n="matches">💬 Matches</h2>
+            <div class="matches-tabs">
+              <button class="match-tab-btn active" data-i18n="chats">Chats</button>
+              <button class="match-tab-btn" data-i18n="new_matches">New Matches</button>
+            </div>
+          </div>
+
+          <!-- New Matches Row -->
+          <div class="new-matches-row" id="new-matches-row"></div>
+
+          <!-- Conversations -->
+          <div class="conversations-list" id="matches-list">
+            <div style="text-align:center;padding:40px;color:var(--text-muted);">Loading matches...</div>
+          </div>
+        </div>
+
+        <!-- Chat View (hidden initially) -->
+        <div class="chat-view hidden" id="chat-view">
+          <div class="chat-header">
+            <span class="chat-back" id="chat-back-btn">←</span>
+            <img class="avatar avatar-md hidden" id="chat-user-avatar" src="" alt="">
+            <div class="chat-user-info">
+              <div class="chat-user-name" id="chat-user-name"></div>
+              <div class="chat-user-status" id="chat-user-status">Online</div>
+            </div>
+            <div class="chat-header-actions">
+              <button class="btn btn-icon" style="font-size:1rem;" title="View profile">👤</button>
+              <button class="btn btn-icon" style="font-size:1rem;" title="Report" onclick="showReportModal()">⚠️</button>
+            </div>
+          </div>
+
+          <!-- AI Icebreaker -->
+          <div class="icebreaker-banner hidden" id="icebreaker-banner">
+            <span class="icebreaker-icon">🤖</span>
+            <span class="icebreaker-text"></span>
+            <span class="icebreaker-use" data-i18n="use_icebreaker">Use →</span>
+          </div>
+
+          <!-- Messages -->
+          <div class="chat-messages" id="chat-messages"></div>
+
+          <!-- Typing indicator -->
+          <div class="typing-indicator hidden" id="typing-indicator">
+            <div class="typing-dots">
+              <div class="typing-dot"></div>
+              <div class="typing-dot"></div>
+              <div class="typing-dot"></div>
+            </div>
+            <span style="font-size:0.8rem;" data-i18n="is_typing">is typing...</span>
+          </div>
+
+          <!-- Input -->
+          <div class="chat-input-area">
+            <div class="chat-input-wrapper">
+              <span class="chat-img-btn" title="Send image">📷</span>
+              <textarea class="chat-input" id="chat-input" rows="1" data-i18n-placeholder="type_message" placeholder="Type a message..."></textarea>
+              <span class="chat-emoji-btn" id="emoji-btn">😊</span>
+            </div>
+            <button class="chat-send-btn" id="chat-send-btn" title="Send">➤</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ LIKES TAB ═══ -->
+      <div class="app-tab" id="tab-likes">
+        <div style="max-width:700px;width:100%;margin:0 auto;">
+          <div style="margin-bottom:24px;">
+            <h2 data-i18n="likes_title">❤️ People who liked you</h2>
+            <p style="color:var(--text-muted);font-size:0.9rem;margin-top:6px;" data-i18n="likes_subtitle">Upgrade to Gold to see everyone who liked your profile</p>
+          </div>
+          <div class="likes-grid" id="likes-grid">
+            <div style="grid-column:1/-1;display:flex;align-items:center;justify-content:center;padding:40px;"><div class="spinner"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ PROFILE TAB ═══ -->
+      <div class="app-tab" id="tab-profile">
+        <div class="profile-container">
+          <!-- Hero Card -->
+          <div class="profile-hero">
+            <div class="profile-photo-ring">
+              <div class="photo-ring-border"></div>
+              <div class="avatar-placeholder avatar-xl" id="profile-avatar-placeholder" style="font-size:3rem;">😊</div>
+              <img id="profile-main-avatar" class="hidden" alt="Profile" style="width:120px;height:120px;border-radius:50%;object-fit:cover;">
+              <div class="edit-photo-btn">✏️</div>
+            </div>
+            <div class="profile-name" id="profile-name">Loading...</div>
+            <div class="profile-tagline" id="profile-tagline"></div>
+            <div class="profile-plan">
+              <span class="badge" id="profile-plan-badge">Free</span>
+            </div>
+          </div>
+
+          <!-- Photos -->
+          <div class="profile-section">
+            <div class="profile-section-title">📸 <span data-i18n="my_photos">My Photos</span></div>
+            <div class="photos-grid" id="photos-grid"></div>
+            <p style="font-size:0.8rem;color:var(--text-muted);margin-top:8px;" data-i18n="drag_reorder">Tap + to add photos (max 6). Drag to reorder.</p>
+          </div>
+
+          <!-- Edit Info -->
+          <div class="profile-section">
+            <div class="profile-section-title">✏️ <span data-i18n="edit_profile">Edit Profile</span></div>
+            <div style="display:flex;flex-direction:column;gap:16px;">
+              <div class="form-group">
+                <label class="form-label" data-i18n="about_me">About Me</label>
+                <textarea id="profile-bio-input" class="form-control" rows="3" data-i18n-placeholder="bio_placeholder" placeholder="Tell people about yourself..." style="resize:none;"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label" data-i18n="city">City</label>
+                <input type="text" id="profile-city-input" class="form-control" data-i18n-placeholder="enter_city" placeholder="Your city">
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                <div class="form-group">
+                  <label class="form-label" data-i18n="job">Job Title</label>
+                  <input type="text" id="profile-job-input" class="form-control" placeholder="e.g. Designer">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" data-i18n="education">Education</label>
+                  <input type="text" id="profile-education-input" class="form-control" placeholder="e.g. MBA">
+                </div>
+              </div>
+              <button class="btn btn-primary" id="btn-save-profile" data-i18n="save_profile">Save Profile</button>
+            </div>
+          </div>
+
+          <!-- Settings -->
+          <div class="profile-section">
+            <div class="profile-section-title">⚙️ <span data-i18n="settings">Settings</span></div>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-size:0.9rem;" data-i18n="notification_settings">Notifications</span>
+                <label style="cursor:pointer;">
+                  <input type="checkbox" checked style="accent-color:var(--primary);width:16px;height:16px;">
+                </label>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-size:0.9rem;" data-i18n="show_online">Show online status</span>
+                <label style="cursor:pointer;">
+                  <input type="checkbox" checked style="accent-color:var(--primary);width:16px;height:16px;">
+                </label>
+              </div>
+              <div style="padding-top:12px;border-top:1px solid var(--border);">
+                <button id="btn-logout" class="btn btn-outline w-full" style="color:#ef4444;border-color:rgba(239,68,68,0.4);" data-i18n="logout">🚪 Logout</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ SUBSCRIPTION TAB ═══ -->
+      <div class="app-tab" id="tab-subscription">
+        <div class="subscription-container">
+          <div style="margin-bottom:28px;">
+            <h2 data-i18n="premium_title">💛 Go Premium</h2>
+            <p style="color:var(--text-muted);margin-top:8px;" data-i18n="premium_subtitle">Unlock unlimited features and find love faster with AI-powered matching.</p>
+          </div>
+
+          <div class="plan-cards">
+            <!-- Free Plan -->
+            <div class="plan-card" data-plan="free">
+              <div class="plan-header">
+                <div class="plan-icon">🆓</div>
+                <div class="plan-name" data-i18n="free">Free</div>
+                <div class="plan-price">
+                  <span class="amount">$0</span>
+                  <span class="period">/mo</span>
+                </div>
+              </div>
+              <ul class="plan-features">
+                <li><span class="check">✓</span> <span data-i18n="feat_10_likes">10 likes/day</span></li>
+                <li><span class="check">✓</span> <span data-i18n="feat_basic_matching">Basic matching</span></li>
+                <li><span class="check">✓</span> <span data-i18n="feat_chat">Chat with matches</span></li>
+                <li><span class="check">✓</span> <span data-i18n="feat_translation">Auto-translation</span></li>
+              </ul>
+              <div class="current-badge-inline">✓ <span data-i18n="current_plan">Current Plan</span></div>
+            </div>
+
+            <!-- Gold Plan -->
+            <div class="plan-card gold-plan" data-plan="gold" style="border-color:rgba(245,166,35,0.3);">
+              <div class="plan-header">
+                <div class="plan-icon">💛</div>
+                <div class="plan-name" style="color:var(--gold);">Gold</div>
+                <div class="plan-price">
+                  <span class="amount" style="color:var(--gold);">$9.99</span>
+                  <span class="period">/mo</span>
+                </div>
+              </div>
+              <ul class="plan-features">
+                <li><span class="check">✓</span> <span data-i18n="feat_unlimited_likes">Unlimited likes</span></li>
+                <li><span class="check">✓</span> <span data-i18n="feat_see_likes">See who liked you</span></li>
+                <li><span class="check">✓</span> <span data-i18n="feat_read_receipts">Read receipts</span></li>
+                <li><span class="check">✓</span> <span data-i18n="feat_rewind">Rewind swipe</span></li>
+              </ul>
+              <button class="btn btn-primary w-full plan-btn" data-plan="gold" data-i18n="get_gold">Get Gold 💛</button>
+            </div>
+
+            <!-- Platinum Plan -->
+            <div class="plan-card platinum-plan" data-plan="platinum" style="border-color:rgba(167,139,250,0.3);">
+              <div class="plan-header">
+                <div class="plan-icon">💜</div>
+                <div class="plan-name" style="color:var(--platinum);">Platinum</div>
+                <div class="plan-price">
+                  <span class="amount" style="color:var(--platinum);">$19.99</span>
+                  <span class="period">/mo</span>
+                </div>
+              </div>
+              <ul class="plan-features">
+                <li><span class="check">✓</span> <span data-i18n="feat_all_gold">All Gold features</span></li>
+                <li><span class="check">✓</span> <span data-i18n="feat_ai_boost">AI priority boost</span></li>
+                <li><span class="check">✓</span> <span data-i18n="feat_super_likes">5 Super Likes/day</span></li>
+                <li><span class="check">✓</span> <span data-i18n="feat_ai_icebreaker">AI icebreakers</span></li>
+                <li><span class="check">✓</span> <span data-i18n="feat_travel">Travel mode</span></li>
+              </ul>
+              <button class="btn btn-secondary w-full plan-btn" data-plan="platinum" data-i18n="get_platinum">Get Platinum 💜</button>
+            </div>
+          </div>
+
+          <!-- Benefits -->
+          <div class="card" style="margin-top:8px;">
+            <h3 style="margin-bottom:16px;" data-i18n="why_upgrade">Why Upgrade?</h3>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;">
+              <div style="display:flex;gap:12px;align-items:flex-start;">
+                <span style="font-size:1.5rem;">🚀</span>
+                <div><strong data-i18n="3x_more_matches">3x More Matches</strong><p style="font-size:0.82rem;color:var(--text-muted);margin-top:4px;" data-i18n="3x_desc">Gold members get 3x more matches on average.</p></div>
+              </div>
+              <div style="display:flex;gap:12px;align-items:flex-start;">
+                <span style="font-size:1.5rem;">🤖</span>
+                <div><strong data-i18n="ai_powered_feat">AI-Powered</strong><p style="font-size:0.82rem;color:var(--text-muted);margin-top:4px;" data-i18n="ai_powered_desc">Priority access to AI matching engine.</p></div>
+              </div>
+              <div style="display:flex;gap:12px;align-items:flex-start;">
+                <span style="font-size:1.5rem;">🌐</span>
+                <div><strong data-i18n="global_reach">Global Reach</strong><p style="font-size:0.82rem;color:var(--text-muted);margin-top:4px;" data-i18n="global_desc">Chat across any language barrier.</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Match Celebration Modal -->
+  <div class="match-celebration hidden" id="match-celebration">
+    <div class="match-hearts">💕</div>
+    <h1 style="font-size:2.5rem;margin:16px 0 8px;" data-i18n="its_a_match">It's a Match!</h1>
+    <p style="color:rgba(255,255,255,0.8);margin-bottom:24px;" data-i18n="match_subtitle">You and <strong id="match-name"></strong> liked each other!</p>
+    <img id="match-avatar" class="avatar-xl hidden" alt="">
+    <div style="display:flex;gap:16px;margin-top:32px;flex-wrap:wrap;justify-content:center;">
+      <button class="btn btn-primary btn-lg" id="btn-send-message">💬 <span data-i18n="send_message">Send Message</span></button>
+      <button class="btn btn-outline btn-lg" id="btn-keep-swiping" style="color:#fff;border-color:rgba(255,255,255,0.3);" data-i18n="keep_swiping">Keep Swiping</button>
+    </div>
+  </div>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="mobile-nav">
+    <div class="mobile-nav-items">
+      <button class="mobile-nav-btn active" data-tab="discover">
+        <span class="icon">🔥</span>
+        <span data-i18n="discover">Discover</span>
+      </button>
+      <button class="mobile-nav-btn" data-tab="matches">
+        <span class="icon">💬</span>
+        <span data-i18n="matches">Matches</span>
+        <span class="mobile-nav-badge hidden" id="mobile-matches-badge"></span>
+      </button>
+      <button class="mobile-nav-btn" data-tab="likes">
+        <span class="icon">❤️</span>
+        <span data-i18n="likes">Likes</span>
+      </button>
+      <button class="mobile-nav-btn" data-tab="profile">
+        <span class="icon">👤</span>
+        <span data-i18n="profile">Profile</span>
+      </button>
+      <button class="mobile-nav-btn" data-tab="subscription">
+        <span class="icon">💛</span>
+        <span data-i18n="premium">Premium</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/i18n.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/discover.js"></script>
+  <script src="/js/chat.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

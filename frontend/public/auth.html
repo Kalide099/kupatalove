@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join KupataLove — Create Your Account</title>
+  <meta name="description" content="Create your KupataLove account and start finding love today. Choose your language and let AI find your perfect match.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💖</text></svg>">
+  <link rel="stylesheet" href="/css/globals.css">
+  <link rel="stylesheet" href="/css/auth.css">
+</head>
+<body class="auth-body">
+  <div class="auth-bg"></div>
+
+  <div class="auth-container">
+    <!-- Logo -->
+    <div class="auth-logo">
+      <div class="logo-mark">💖</div>
+      <div class="logo-name">KupataLove</div>
+      <div class="logo-tagline" data-i18n="find_your_love">Find your love across languages</div>
+    </div>
+
+    <!-- Auth Card -->
+    <div class="auth-card">
+      <!-- Tabs -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tab-login" data-i18n="login">Login</button>
+        <button class="auth-tab" id="tab-register" data-i18n="create_account">Create Account</button>
+      </div>
+
+      <!-- Login Form -->
+      <div id="form-login" class="auth-form">
+        <div class="form-group">
+          <label class="form-label" data-i18n="email">Email</label>
+          <div class="input-icon-wrapper">
+            <span class="input-icon">✉️</span>
+            <input type="email" id="login-email" class="form-control" data-i18n-placeholder="enter_email" placeholder="Enter your email" autocomplete="email">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="password">Password</label>
+          <div class="input-icon-wrapper">
+            <span class="input-icon">🔒</span>
+            <input type="password" id="login-password" class="form-control" data-i18n-placeholder="enter_password" placeholder="Enter your password" autocomplete="current-password">
+            <span class="input-toggle" id="toggle-login-pwd">👁️</span>
+          </div>
+        </div>
+        <div style="text-align:right;margin-top:-8px;">
+          <a href="#" style="font-size:0.82rem;color:var(--primary);" data-i18n="forgot_password">Forgot password?</a>
+        </div>
+        <div id="login-error" style="color:#ef4444;font-size:0.85rem;min-height:20px;"></div>
+        <button class="btn btn-primary w-full" id="btn-login" data-i18n="login">Login</button>
+        <div class="divider"><span data-i18n="or">or</span></div>
+        <div class="auth-switch">
+          <span data-i18n="no_account">Don't have an account?</span>
+          <a onclick="document.getElementById('tab-register').click()" data-i18n="sign_up_now">Sign up now</a>
+        </div>
+      </div>
+
+      <!-- Register Wizard -->
+      <div id="form-register" class="auth-form hidden">
+        <!-- Progress -->
+        <div class="auth-progress">
+          <div class="auth-progress-bar" id="reg-progress" style="width:25%"></div>
+        </div>
+        <div class="step-indicator">
+          <div class="step-dot active"></div>
+          <div class="step-dot"></div>
+          <div class="step-dot"></div>
+          <div class="step-dot"></div>
+        </div>
+
+        <!-- Step 1: Account Info -->
+        <div class="reg-step active" id="step-1">
+          <div class="step-title" data-i18n="step1_title_reg">Create Your Account</div>
+          <div class="step-subtitle" data-i18n="step1_subtitle">Let's start with the basics</div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="full_name">Full Name</label>
+            <div class="input-icon-wrapper">
+              <span class="input-icon">👤</span>
+              <input type="text" id="reg-name" class="form-control" data-i18n-placeholder="enter_name" placeholder="Your name" autocomplete="name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="email">Email</label>
+            <div class="input-icon-wrapper">
+              <span class="input-icon">✉️</span>
+              <input type="email" id="reg-email" class="form-control" data-i18n-placeholder="enter_email" placeholder="your@email.com" autocomplete="email">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="password">Password</label>
+            <div class="input-icon-wrapper">
+              <span class="input-icon">🔒</span>
+              <input type="password" id="reg-password" class="form-control" data-i18n-placeholder="min_8_chars" placeholder="Min 8 characters" autocomplete="new-password">
+              <span class="input-toggle" id="toggle-reg-pwd">👁️</span>
+            </div>
+            <div class="password-strength" id="password-strength"></div>
+          </div>
+          <div id="step1-error" style="color:#ef4444;font-size:0.85rem;min-height:16px;"></div>
+          <button class="btn btn-primary w-full" id="step1-next" data-i18n="continue">Continue →</button>
+        </div>
+
+        <!-- Step 2: About You -->
+        <div class="reg-step" id="step-2">
+          <div class="step-title" data-i18n="step2_title">About You</div>
+          <div class="step-subtitle" data-i18n="step2_subtitle">Help us find your perfect match</div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="i_am_a">I am a...</label>
+            <div class="option-grid" style="grid-template-columns:repeat(2,1fr);">
+              <button class="option-btn gender-btn" data-gender="male"><span class="option-icon">👨</span><span data-i18n="man">Man</span></button>
+              <button class="option-btn gender-btn" data-gender="female"><span class="option-icon">👩</span><span data-i18n="woman">Woman</span></button>
+              <button class="option-btn gender-btn" data-gender="non-binary" style="grid-column:span 2"><span class="option-icon">🏳️‍🌈</span><span data-i18n="non_binary">Non-binary</span></button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="interested_in">Interested in...</label>
+            <div class="option-grid" style="grid-template-columns:repeat(3,1fr);">
+              <button class="option-btn interest-btn" data-interest="male"><span class="option-icon">👨</span><span data-i18n="men">Men</span></button>
+              <button class="option-btn interest-btn" data-interest="female"><span class="option-icon">👩</span><span data-i18n="women">Women</span></button>
+              <button class="option-btn interest-btn selected" data-interest="everyone"><span class="option-icon">🌈</span><span data-i18n="everyone">Everyone</span></button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="birthdate">Date of Birth</label>
+            <input type="date" id="reg-birthdate" class="form-control" max="2007-01-01">
+          </div>
+          <div id="step2-error" style="color:#ef4444;font-size:0.85rem;min-height:16px;"></div>
+          <div class="form-step-nav">
+            <button class="btn btn-outline" id="step2-back" data-i18n="back">← Back</button>
+            <button class="btn btn-primary" style="flex:1" id="step2-next" data-i18n="continue">Continue →</button>
+          </div>
+        </div>
+
+        <!-- Step 3: Choose Language -->
+        <div class="reg-step" id="step-3">
+          <div class="step-title" data-i18n="step3_title">Your Language</div>
+          <div class="step-subtitle" data-i18n="step3_subtitle">The app will load in this language. You can change it later.</div>
+          <div class="language-grid" id="lang-grid"></div>
+          <div class="form-step-nav" style="margin-top:16px;">
+            <button class="btn btn-outline" id="step3-back" data-i18n="back">← Back</button>
+            <button class="btn btn-primary" style="flex:1" id="step3-next" data-i18n="continue">Continue →</button>
+          </div>
+        </div>
+
+        <!-- Step 4: Bio & Location -->
+        <div class="reg-step" id="step-4">
+          <div class="step-title" data-i18n="step4_title">Your Story</div>
+          <div class="step-subtitle" data-i18n="step4_subtitle">Tell people about yourself (optional)</div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="city">City</label>
+            <div class="input-icon-wrapper">
+              <span class="input-icon">📍</span>
+              <input type="text" id="reg-city" class="form-control" data-i18n-placeholder="enter_city" placeholder="Your city">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="bio">About Me</label>
+            <textarea id="reg-bio" class="form-control" rows="4" data-i18n-placeholder="bio_placeholder" placeholder="Tell potential matches about yourself, your passions, what you're looking for..." style="resize:none;"></textarea>
+          </div>
+          <div id="register-error" style="color:#ef4444;font-size:0.85rem;min-height:16px;"></div>
+          <div class="terms-text" style="margin-bottom:12px;">
+            <span data-i18n="terms_agree">By continuing you agree to our</span>
+            <a href="#">Terms of Service</a> <span data-i18n="and">and</span>
+            <a href="#">Privacy Policy</a>
+          </div>
+          <div class="form-step-nav">
+            <button class="btn btn-outline" id="step4-back" data-i18n="back">← Back</button>
+            <button class="btn btn-primary" style="flex:1" id="btn-register" data-i18n="create_account">Create Account 💖</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:20px;">
+      <a href="/index.html" style="color:var(--text-muted);font-size:0.85rem;" data-i18n="back_to_home">← Back to Home</a>
+    </div>
+  </div>
+
+  <!-- Toast container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="/js/i18n.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    // Handle tab param from URL
+    const params = new URLSearchParams(location.search);
+    if (params.get('tab') === 'register') {
+      setTimeout(() => {
+        document.getElementById('tab-register')?.click();
+      }, 100);
+    }
+  </script>
+</body>
+</html>
