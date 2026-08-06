@@ -90,11 +90,19 @@ initSocket(io);
 // ─── Start Server ─────────────────────────────────────────────────
 const PORT = process.env.PORT || 5000;
 
-syncDB().then(() => {
-  server.listen(PORT, () => {
-    console.log(`\n💖 KupataLove server running on http://localhost:${PORT}`);
-    console.log(`📡 Socket.IO ready`);
-    console.log(`🗄️  MySQL connected (XAMPP)`);
-    console.log(`🌐 Frontend: http://localhost:${PORT}\n`);
+syncDB()
+  .then(() => {
+    server.listen(PORT, () => {
+      console.log(`\n💖 KupataLove server running on port ${PORT}`);
+      console.log(`📡 Socket.IO ready`);
+      console.log(`🗄️  MySQL connected`);
+    });
+  })
+  .catch((err) => {
+    console.error('❌ Failed to sync database on startup:', err.message);
+    console.error('⚠️ Make sure your DB credentials in .env are correct for Hostinger!');
+    // Start the server anyway so it doesn't return a 503, but API calls will fail until DB is fixed
+    server.listen(PORT, () => {
+      console.log(`\n⚠️ KupataLove server running on port ${PORT}, BUT Database connection failed.`);
+    });
   });
-});
