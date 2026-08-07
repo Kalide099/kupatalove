@@ -73,22 +73,8 @@ app.use('/api', apiLimiter);
 // Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-const fs = require('fs');
-// Determine correct frontend path based on deployment environment (Hostinger/Local)
-const possibleFrontendPaths = [
-  path.join(__dirname, '../frontend/public'),
-  path.join(process.cwd(), 'frontend/public'),
-  path.join(__dirname, '../../frontend/public')
-];
-let frontendPath = possibleFrontendPaths[0];
-for (const p of possibleFrontendPaths) {
-  if (fs.existsSync(p)) {
-    frontendPath = p;
-    break;
-  }
-}
-
-// Serve frontend (if running from same origin)
+// Serve frontend from the local public directory
+const frontendPath = path.join(__dirname, 'public');
 app.use(express.static(frontendPath));
 
 // ─── API Routes ────────────────────────────────────────────────────
@@ -107,6 +93,7 @@ app.get('/api/health', (req, res) => {
 
 // SPA fallback
 app.get('*', (req, res) => {
+  const fs = require('fs');
   const indexPath = path.join(frontendPath, 'index.html');
   if (fs.existsSync(indexPath)) {
     res.sendFile(indexPath);
