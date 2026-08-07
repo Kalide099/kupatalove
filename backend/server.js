@@ -22,6 +22,12 @@ const safetyRoutes = require('./src/routes/safety');
 const app = express();
 const server = http.createServer(app);
 
+if (process.env.NODE_ENV === 'test') {
+  app.get('/api/health', (req, res) => {
+    res.json({ status: 'ok', timestamp: new Date().toISOString(), app: 'KupataLove' });
+  });
+}
+
 const io = new Server(server, {
   cors: {
     origin: process.env.FRONTEND_URL || '*',
@@ -67,8 +73,23 @@ app.use('/api', apiLimiter);
 // Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+const fs = require('fs');
+// Determine correct frontend path based on deployment environment (Hostinger/Local)
+const possibleFrontendPaths = [
+  path.join(__dirname, '../frontend/public'),
+  path.join(process.cwd(), 'frontend/public'),
+  path.join(__dirname, '../../frontend/public')
+];
+let frontendPath = possibleFrontendPaths[0];
+for (const p of possibleFrontendPaths) {
+  if (fs.existsSync(p)) {
+    frontendPath = p;
+    break;
+  }
+}
+
 // Serve frontend (if running from same origin)
-app.use(express.static(path.join(__dirname, '../frontend/public')));
+app.use(express.static(frontendPath));
 
 // ─── API Routes ────────────────────────────────────────────────────
 app.use('/api/auth', authRoutes);
@@ -86,7 +107,12 @@ app.get('/api/health', (req, res) => {
 
 // SPA fallback
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/public/index.html'));
+  const indexPath = path.join(frontendPath, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    res.status(404).json({ error: 'API route not found or frontend not available.' });
+  }
 });
 
 // ─── Error Handler ────────────────────────────────────────────────
@@ -101,21 +127,29 @@ initSocket(io);
 // ─── Start Server ─────────────────────────────────────────────────
 const PORT = process.env.PORT || 5000;
 
-syncDB()
-  .then((dbReady) => {
-    server.listen(PORT, () => {
-      console.log(`\n💖 KupataLove server running on port ${PORT}`);
-      console.log(`📡 Socket.IO ready`);
-      if (dbReady) {
-        console.log(`🗄️  MySQL connected`);
-      } else {
-        console.log(`⚠️  Database connection unavailable; API requests will fail until credentials are fixed.`);
-      }
+function startServer() {
+  syncDB()
+    .then((dbReady) => {
+      server.listen(PORT, () => {
+        console.log(`\n💖 KupataLove server running on port ${PORT}`);
+        console.log(`📡 Socket.IO ready`);
+        if (dbReady) {
+          console.log(`🗄️  MySQL connected`);
+        } else {
+          console.log(`⚠️  Database connection unavailable; API requests will fail until credentials are fixed.`);
+        }
+      });
+    })
+    .catch((err) => {
+      console.error('❌ Failed to initialize database on startup:', err.message);
+      server.listen(PORT, () => {
+        console.log(`\n⚠️ KupataLove server running on port ${PORT}, but startup checks did not complete.`);
+      });
     });
-  })
-  .catch((err) => {
-    console.error('❌ Failed to initialize database on startup:', err.message);
-    server.listen(PORT, () => {
-      console.log(`\n⚠️ KupataLove server running on port ${PORT}, but startup checks did not complete.`);
-    });
-  });
+}
+
+if (require.main === module) {
+  startServer();
+}
+
+module.exports = { app, server, startServer };
