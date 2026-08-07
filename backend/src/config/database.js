@@ -3,12 +3,6 @@ const envPath = path.join(__dirname, '../../.env');
 require('dotenv').config({ path: envPath });
 const { Sequelize } = require('sequelize');
 
-console.log('--- STARTUP DEBUG ---');
-console.log('Looking for .env file at:', envPath);
-console.log('DB_USER:', process.env.DB_USER);
-console.log('DB_PASS exists?', process.env.DB_PASS ? 'YES (length: ' + process.env.DB_PASS.length + ')' : 'NO (undefined)');
-console.log('---------------------');
-
 // XAMPP MySQL connection options
 const dialectOptions = {};
 // On Windows XAMPP, MySQL may use named pipes; TCP is standard

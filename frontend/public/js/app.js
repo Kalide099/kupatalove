@@ -89,6 +89,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (tabName !== 'matches') chatModule.closeChat();
     loadTab(tabName);
   };
+  window.switchTab = switchTab;
+  window.showReportModal = () => {
+    window.KL_Toast?.show('Report feature will be available soon', 'info');
+  };
 
   navBtns.forEach(btn => {
     btn.addEventListener('click', () => switchTab(btn.dataset.tab));
@@ -229,6 +233,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   // ─── Matches ─────────────────────────────────────────────────
   let matchesData = [];
 
+  const escapeHtml = (value = '') => String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+
   const loadMatches = async () => {
     const container = document.getElementById('matches-list');
     container.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;padding:40px;"><div class="spinner"></div></div>';
@@ -239,29 +250,29 @@ document.addEventListener('DOMContentLoaded', async () => {
       // New matches row
       const newRow = document.getElementById('new-matches-row');
       newRow.innerHTML = matchesData.slice(0, 10).map(m => `
-        <div class="new-match-item" onclick="openChatFromMatch(${m.matchId}, ${m.userId}, '${m.name}', '${m.avatar || ''}', '${m.ai_icebreaker || ''}')">
+        <div class="new-match-item" onclick="openChatFromMatch(${m.matchId}, ${m.userId}, ${JSON.stringify(m.name || 'User')}, ${JSON.stringify(m.avatar || '')}, ${JSON.stringify(m.ai_icebreaker || '')})">
           <div class="new-match-avatar">
             ${m.avatar
-              ? `<img src="${m.avatar}" alt="${m.name}">`
-              : `<div class="avatar-placeholder" style="width:64px;height:64px;font-size:1.2rem">${m.name[0]}</div>`}
+              ? `<img src="${escapeHtml(m.avatar)}" alt="${escapeHtml(m.name || 'User')}">`
+              : `<div class="avatar-placeholder" style="width:64px;height:64px;font-size:1.2rem">${escapeHtml((m.name || 'U').charAt(0))}</div>`}
           </div>
-          <span class="new-match-name">${m.name}</span>
+          <span class="new-match-name">${escapeHtml(m.name || 'User')}</span>
         </div>`).join('');
 
       // Conversations
       container.innerHTML = matchesData.length === 0
         ? '<div style="text-align:center;color:var(--text-muted);padding:60px 20px;">No matches yet — start swiping! 💘</div>'
         : matchesData.map(m => `
-          <div class="conversation-item" onclick="openChatFromMatch(${m.matchId}, ${m.userId}, '${m.name}', '${m.avatar || ''}', '${m.ai_icebreaker || ''}')">
+          <div class="conversation-item" onclick="openChatFromMatch(${m.matchId}, ${m.userId}, ${JSON.stringify(m.name || 'User')}, ${JSON.stringify(m.avatar || '')}, ${JSON.stringify(m.ai_icebreaker || '')})">
             ${m.avatar
-              ? `<img class="avatar avatar-md" src="${m.avatar}" alt="${m.name}">`
-              : `<div class="avatar-placeholder avatar-md" style="font-size:1.1rem">${m.name[0]}</div>`}
+              ? `<img class="avatar avatar-md" src="${escapeHtml(m.avatar)}" alt="${escapeHtml(m.name || 'User')}">`
+              : `<div class="avatar-placeholder avatar-md" style="font-size:1.1rem">${escapeHtml((m.name || 'U').charAt(0))}</div>`}
             <div class="conv-info">
               <div class="conv-top">
-                <span class="conv-name">${m.name}</span>
+                <span class="conv-name">${escapeHtml(m.name || 'User')}</span>
                 <span class="conv-time">${formatTime(m.createdAt)}</span>
               </div>
-              <div class="conv-preview">${m.ai_icebreaker ? '🤖 ' + m.ai_icebreaker.slice(0, 50) + '...' : 'Start a conversation!'}</div>
+              <div class="conv-preview">${escapeHtml(m.ai_icebreaker ? '🤖 ' + m.ai_icebreaker.slice(0, 50) + '...' : 'Start a conversation!')}</div>
             </div>
             <div class="badge badge-primary" style="font-size:0.72rem">${m.ai_compatibility_score || 75}%</div>
           </div>`).join('');
@@ -285,7 +296,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       container.innerHTML = likes.length === 0
         ? '<div style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:40px;">No likes yet — you\'ll get there! 💪</div>'
         : likes.map(l => `
-          <div class="like-card" onclick="window.location='/app.html?tab=discover'">
+          <div class="like-card" onclick="window.location.href='/app.html?tab=discover'">
             <div style="aspect-ratio:3/4;background:var(--grad-primary);display:flex;align-items:center;justify-content:center;font-size:3rem;">😊</div>
             <div class="like-card-info">
               <div class="like-card-name">${l.name}</div>

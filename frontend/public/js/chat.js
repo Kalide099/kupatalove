@@ -22,13 +22,17 @@ class ChatModule {
     matchesPanel?.classList.add('hidden');
 
     // Populate header
-    document.getElementById('chat-user-name').textContent = otherUser.name;
+    document.getElementById('chat-user-name').textContent = otherUser?.name || 'Match';
     document.getElementById('chat-back-btn').onclick = () => this.closeChat();
 
     const avatar = document.getElementById('chat-user-avatar');
-    if (otherUser.avatar) {
-      avatar.src = otherUser.avatar;
-      avatar.classList.remove('hidden');
+    if (avatar) {
+      if (otherUser?.avatar) {
+        avatar.src = otherUser.avatar;
+        avatar.classList.remove('hidden');
+      } else {
+        avatar.classList.add('hidden');
+      }
     }
 
     // Join socket room

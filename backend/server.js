@@ -32,6 +32,17 @@ const io = new Server(server, {
 
 // ─── Global Middleware ────────────────────────────────────────────
 app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", 'data:', 'https:'],
+      connectSrc: ["'self'", 'ws:', 'wss:', 'http:', 'https:'],
+      objectSrc: ["'none'"],
+      baseUri: ["'self'"],
+    },
+  },
   crossOriginResourcePolicy: { policy: 'cross-origin' },
 }));
 
@@ -91,18 +102,20 @@ initSocket(io);
 const PORT = process.env.PORT || 5000;
 
 syncDB()
-  .then(() => {
+  .then((dbReady) => {
     server.listen(PORT, () => {
       console.log(`\n💖 KupataLove server running on port ${PORT}`);
       console.log(`📡 Socket.IO ready`);
-      console.log(`🗄️  MySQL connected`);
+      if (dbReady) {
+        console.log(`🗄️  MySQL connected`);
+      } else {
+        console.log(`⚠️  Database connection unavailable; API requests will fail until credentials are fixed.`);
+      }
     });
   })
   .catch((err) => {
-    console.error('❌ Failed to sync database on startup:', err.message);
-    console.error('⚠️ Make sure your DB credentials in .env are correct for Hostinger!');
-    // Start the server anyway so it doesn't return a 503, but API calls will fail until DB is fixed
+    console.error('❌ Failed to initialize database on startup:', err.message);
     server.listen(PORT, () => {
-      console.log(`\n⚠️ KupataLove server running on port ${PORT}, BUT Database connection failed.`);
+      console.log(`\n⚠️ KupataLove server running on port ${PORT}, but startup checks did not complete.`);
     });
   });

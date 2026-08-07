@@ -36,9 +36,10 @@ const syncDB = async () => {
     console.log('✅ MySQL connection established');
     await sequelize.sync({ alter: true });
     console.log('✅ All tables synced');
+    return true;
   } catch (err) {
     console.error('❌ DB sync error:', err.message);
-    process.exit(1);
+    return false;
   }
 };
 
