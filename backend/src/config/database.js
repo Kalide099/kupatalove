@@ -20,8 +20,8 @@ const sequelize = new Sequelize(
   process.env.DB_USER || 'u633695266_kupata',
   process.env.DB_PASS || 'KupataLove1234',
   {
-    host: process.env.DB_HOST || 'srv1636.hstgr.io',
-    port: parseInt(process.env.DB_PORT) || 1636,
+    host: process.env.DB_HOST || '127.0.0.1',
+    port: parseInt(process.env.DB_PORT) || 3306,
     dialect: 'mysql',
     dialectOptions,
     logging: process.env.NODE_ENV === 'development' ? false : false,
