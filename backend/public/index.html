@@ -259,6 +259,25 @@
     // Init i18n on landing page
     window.KL_I18n.initI18n();
 
+    // Landing page toast helper
+    const showLandingToast = (msg) => {
+      const c = document.getElementById('toast-container');
+      if (!c) return;
+      const el = document.createElement('div');
+      el.className = 'toast toast-info';
+      el.innerHTML = `<span class="toast-icon">💖</span><span class="toast-text">${msg}</span><span class="toast-close" onclick="this.parentElement.remove()">✕</span>`;
+      c.appendChild(el);
+      setTimeout(() => {
+        el.style.animation = 'slide-out-right 0.3s ease forwards';
+        setTimeout(() => el.remove(), 300);
+      }, 3000);
+    };
+
+    // Wire up phone mockup buttons
+    document.querySelectorAll('.phone-btn').forEach(btn => {
+      btn.addEventListener('click', () => showLandingToast('Create an account to start swiping!'));
+    });
+
     // Navbar scroll effect
     const nav = document.getElementById('landing-nav');
     window.addEventListener('scroll', () => {

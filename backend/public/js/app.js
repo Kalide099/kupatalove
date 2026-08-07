@@ -485,6 +485,33 @@ document.addEventListener('DOMContentLoaded', async () => {
   switchTab(initialTab);
   updateBadges();
 
+  // ─── Missing Buttons Handlers ──────────────────────────────────
+  document.getElementById('btn-boost')?.addEventListener('click', () => {
+    toast.show('Boost requires Platinum subscription! 💜', 'info');
+  });
+
+  const matchTabs = document.querySelectorAll('.match-tab-btn');
+  matchTabs.forEach(btn => {
+    btn.addEventListener('click', () => {
+      matchTabs.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  document.getElementById('emoji-btn')?.addEventListener('click', () => {
+    toast.show('Emoji picker coming soon!', 'info');
+  });
+  
+  document.querySelector('.chat-img-btn')?.addEventListener('click', () => {
+    toast.show('Image sending coming soon! 📷', 'info');
+  });
+
+  document.querySelectorAll('.chat-header-actions .btn-icon').forEach(btn => {
+    if(btn.textContent.includes('👤')) {
+      btn.addEventListener('click', () => toast.show('User profile view coming soon!', 'info'));
+    }
+  });
+
   // Update user name in sidebar
   const sidebarUserName = document.getElementById('sidebar-user-name');
   if (sidebarUserName) sidebarUserName.textContent = user.name;
