@@ -10,9 +10,10 @@ const Message = sequelize.define('Message', {
   sender_lang: { type: DataTypes.STRING(10) },
   recipient_lang: { type: DataTypes.STRING(10) },
   message_type: {
-    type: DataTypes.ENUM('text', 'image', 'emoji'),
+    type: DataTypes.ENUM('text', 'image', 'emoji', 'audio'),
     defaultValue: 'text',
   },
+  attachment_url: { type: DataTypes.STRING },
   is_read: { type: DataTypes.BOOLEAN, defaultValue: false },
   is_translated: { type: DataTypes.BOOLEAN, defaultValue: false },
 }, {

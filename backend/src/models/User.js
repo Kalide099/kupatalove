@@ -104,6 +104,11 @@ const User = sequelize.define('User', {
   refresh_token: {
     type: DataTypes.TEXT,
   },
+  prompts: {
+    type: DataTypes.JSON,
+    defaultValue: [],
+    comment: 'Array of { question, answer } objects',
+  },
 }, {
   tableName: 'users',
   indexes: [

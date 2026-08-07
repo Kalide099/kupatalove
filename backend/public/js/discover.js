@@ -68,6 +68,14 @@ class SwipeUI {
 
     const aiScore = profile.ai_score || 75;
 
+    const prompts = profile.prompts || [];
+    const promptsHtml = prompts.length > 0 ? `<div class="card-prompts" style="margin-top:12px;display:flex;flex-direction:column;gap:8px;">${prompts.map(p => `
+      <div class="card-prompt" style="background:rgba(255,255,255,0.05);padding:10px;border-radius:12px;">
+        <div style="font-size:0.8rem;color:var(--primary);font-weight:600;margin-bottom:4px;">${p.question}</div>
+        <div style="font-size:0.95rem;">${p.answer}</div>
+      </div>
+    `).join('')}</div>` : '';
+
     card.innerHTML = `
       <div class="card-image-container">
         ${photoHtml}
@@ -84,6 +92,7 @@ class SwipeUI {
         </div>
         <div class="card-dist">📍 ${profile.city || 'Unknown'}</div>
         ${profile.bio ? `<div class="card-bio">${profile.bio}</div>` : ''}
+        ${promptsHtml}
         <div class="card-ai-score">
           🤖 AI Match <div class="ai-score-bar"><div class="ai-score-fill" style="width:${aiScore}%"></div></div> ${aiScore}%
         </div>

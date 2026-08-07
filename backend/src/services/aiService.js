@@ -116,4 +116,54 @@ const calculateAge = (birthdate) => {
   return Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
 };
 
-module.exports = { generateCompatibility, analyzePersonality, generateConversationStarter };
+/**
+ * Transcribe audio and translate to target language
+ */
+const transcribeAudio = async (filePath, targetLanguage) => {
+  const client = getClient();
+  if (!client) {
+    // Mock for development
+    return {
+      original: "This is a mocked voice note transcription.",
+      translated: "This is a mocked voice note translation.",
+    };
+  }
+
+  try {
+    const fs = require('fs');
+    
+    // 1. Transcribe audio to its native text
+    const transcription = await client.audio.transcriptions.create({
+      file: fs.createReadStream(filePath),
+      model: 'whisper-1',
+    });
+    
+    const originalText = transcription.text;
+    
+    // 2. Translate to recipient's language
+    const translationCompletion = await client.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [{
+        role: 'system',
+        content: `Translate the following text to ${targetLanguage}. Reply ONLY with the translated text.`
+      }, {
+        role: 'user',
+        content: originalText
+      }],
+      max_tokens: 300,
+    });
+    
+    return {
+      original: originalText,
+      translated: translationCompletion.choices[0].message.content.trim(),
+    };
+  } catch (err) {
+    console.warn('Transcription error:', err.message);
+    return {
+      original: "Transcription failed.",
+      translated: "Transcription failed.",
+    };
+  }
+};
+
+module.exports = { generateCompatibility, analyzePersonality, generateConversationStarter, transcribeAudio };

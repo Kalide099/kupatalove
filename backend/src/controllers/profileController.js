@@ -21,7 +21,7 @@ const updateProfile = async (req, res) => {
   try {
     const {
       name, bio, city, height, education, job_title,
-      interested_in, language, latitude, longitude,
+      interested_in, language, latitude, longitude, prompts,
     } = req.body;
 
     const updates = {};
@@ -35,6 +35,7 @@ const updateProfile = async (req, res) => {
     if (language) updates.language = language;
     if (latitude) updates.latitude = parseFloat(latitude);
     if (longitude) updates.longitude = parseFloat(longitude);
+    if (prompts) updates.prompts = prompts;
 
     await req.user.update(updates);
 

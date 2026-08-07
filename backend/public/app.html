@@ -152,6 +152,7 @@
               <span class="chat-img-btn" title="Send image">📷</span>
               <textarea class="chat-input" id="chat-input" rows="1" data-i18n-placeholder="type_message" placeholder="Type a message..."></textarea>
               <span class="chat-emoji-btn" id="emoji-btn">😊</span>
+              <span class="chat-mic-btn" id="chat-mic-btn" title="Record Voice Note" style="cursor:pointer;margin-left:8px;font-size:1.1rem;">🎙️</span>
             </div>
             <button class="chat-send-btn" id="chat-send-btn" title="Send">➤</button>
           </div>
@@ -218,8 +219,37 @@
                   <input type="text" id="profile-education-input" class="form-control" placeholder="e.g. MBA">
                 </div>
               </div>
-              <button class="btn btn-primary" id="btn-save-profile" data-i18n="save_profile">Save Profile</button>
             </div>
+          </div>
+
+          <!-- Prompts -->
+          <div class="profile-section">
+            <div class="profile-section-title">✨ <span data-i18n="my_prompts">Profile Prompts</span></div>
+            <div style="display:flex;flex-direction:column;gap:16px;" id="prompts-container">
+              <!-- Prompt 1 -->
+              <div class="form-group">
+                <select class="form-control prompt-select" id="prompt-select-1" style="margin-bottom:8px;font-weight:bold;color:var(--primary);">
+                  <option value="">Select a prompt...</option>
+                  <option value="I geek out on...">I geek out on...</option>
+                  <option value="A boundary of mine is...">A boundary of mine is...</option>
+                  <option value="Two truths and a lie">Two truths and a lie</option>
+                  <option value="My ideal Sunday is...">My ideal Sunday is...</option>
+                </select>
+                <textarea class="form-control prompt-answer" id="prompt-answer-1" rows="2" placeholder="Your answer..." style="resize:none;"></textarea>
+              </div>
+              <!-- Prompt 2 -->
+              <div class="form-group">
+                <select class="form-control prompt-select" id="prompt-select-2" style="margin-bottom:8px;font-weight:bold;color:var(--primary);">
+                  <option value="">Select a prompt...</option>
+                  <option value="I geek out on...">I geek out on...</option>
+                  <option value="A boundary of mine is...">A boundary of mine is...</option>
+                  <option value="Two truths and a lie">Two truths and a lie</option>
+                  <option value="My ideal Sunday is...">My ideal Sunday is...</option>
+                </select>
+                <textarea class="form-control prompt-answer" id="prompt-answer-2" rows="2" placeholder="Your answer..." style="resize:none;"></textarea>
+              </div>
+            </div>
+            <button class="btn btn-primary w-full" id="btn-save-profile" data-i18n="save_profile" style="margin-top:16px;">Save Profile</button>
           </div>
 
           <!-- Settings -->

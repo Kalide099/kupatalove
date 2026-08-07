@@ -82,4 +82,51 @@ const sendMessage = async (req, res) => {
   }
 };
 
-module.exports = { getMessages, sendMessage };
+const sendAudioMessage = async (req, res) => {
+  try {
+    const { matchId } = req.params;
+    const me = req.user;
+    
+    if (!req.file) return res.status(400).json({ error: 'No audio file uploaded' });
+
+    const match = await Match.findOne({
+      where: {
+        id: matchId,
+        [Op.or]: [{ user1_id: me.id }, { user2_id: me.id }],
+      },
+    });
+    if (!match) return res.status(403).json({ error: 'Not authorized for this match' });
+
+    const recipientId = match.user1_id === me.id ? match.user2_id : match.user1_id;
+    const recipient = await User.findByPk(recipientId, { attributes: ['id', 'language'] });
+
+    const senderLang = me.language || 'en';
+    const recipientLang = recipient.language || 'en';
+
+    // Call AI Service to transcribe and translate
+    const { transcribeAudio } = require('../services/aiService');
+    const { original, translated } = await transcribeAudio(req.file.path, recipientLang);
+
+    const isTranslated = senderLang !== recipientLang && translated !== original;
+    const attachmentUrl = `/uploads/${req.file.filename}`;
+
+    const message = await Message.create({
+      match_id: parseInt(matchId),
+      sender_id: me.id,
+      original_text: original,
+      translated_text: isTranslated ? translated : null,
+      sender_lang: senderLang,
+      recipient_lang: recipientLang,
+      message_type: 'audio',
+      attachment_url: attachmentUrl,
+      is_translated: isTranslated,
+    });
+
+    res.status(201).json(message);
+  } catch (err) {
+    console.error('Audio message error:', err);
+    res.status(500).json({ error: 'Failed to send audio message' });
+  }
+};
+
+module.exports = { getMessages, sendMessage, sendAudioMessage };

@@ -333,6 +333,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         : '';
       document.getElementById('profile-tagline').textContent = age ? `${age} years old · ${profile.city || ''}` : '';
 
+      // Prompts
+      const prompts = profile.prompts || [];
+      if (prompts[0]) {
+        document.getElementById('prompt-select-1').value = prompts[0].question || '';
+        document.getElementById('prompt-answer-1').value = prompts[0].answer || '';
+      }
+      if (prompts[1]) {
+        document.getElementById('prompt-select-2').value = prompts[1].question || '';
+        document.getElementById('prompt-answer-2').value = prompts[1].answer || '';
+      }
+
       // Photos grid
       const grid = document.getElementById('photos-grid');
       const photos = profile.photos || [];
@@ -393,11 +404,21 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   document.getElementById('btn-save-profile')?.addEventListener('click', async () => {
     try {
+      const prompts = [];
+      const p1q = document.getElementById('prompt-select-1').value;
+      const p1a = document.getElementById('prompt-answer-1').value.trim();
+      if (p1q && p1a) prompts.push({ question: p1q, answer: p1a });
+
+      const p2q = document.getElementById('prompt-select-2').value;
+      const p2a = document.getElementById('prompt-answer-2').value.trim();
+      if (p2q && p2a) prompts.push({ question: p2q, answer: p2a });
+
       const updates = {
         bio: document.getElementById('profile-bio-input').value,
         city: document.getElementById('profile-city-input').value,
         job_title: document.getElementById('profile-job-input').value,
         education: document.getElementById('profile-education-input').value,
+        prompts,
       };
       await api.put('/profile/me', updates);
       toast.show('Profile saved! ✅', 'success');

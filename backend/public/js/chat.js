@@ -69,6 +69,56 @@ class ChatModule {
 
     // Mark read
     this.socket?.emit('mark_read', { matchId });
+
+    // Setup audio recording
+    this.setupAudioRecording();
+  }
+
+  setupAudioRecording() {
+    const micBtn = document.getElementById('chat-mic-btn');
+    if (!micBtn) return;
+    
+    let mediaRecorder;
+    let audioChunks = [];
+    let isRecording = false;
+
+    micBtn.onclick = async () => {
+      if (!isRecording) {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          mediaRecorder = new MediaRecorder(stream);
+          audioChunks = [];
+          
+          mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
+          mediaRecorder.onstop = async () => {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+            const formData = new FormData();
+            formData.append('audio', audioBlob, 'voicenote.webm');
+            
+            try {
+              window.KL_Toast?.show('Uploading voice note...', 'info');
+              await this.api.upload(`/conversations/${this.activeMatchId}/audio`, formData);
+            } catch (err) {
+              window.KL_Toast?.show('Failed to send audio', 'error');
+            }
+          };
+
+          mediaRecorder.start();
+          isRecording = true;
+          micBtn.textContent = '⏹️';
+          micBtn.style.color = 'red';
+          window.KL_Toast?.show('Recording started...', 'info', 2000);
+        } catch (err) {
+          window.KL_Toast?.show('Microphone access denied', 'error');
+        }
+      } else {
+        mediaRecorder.stop();
+        mediaRecorder.stream.getTracks().forEach(t => t.stop());
+        isRecording = false;
+        micBtn.textContent = '🎙️';
+        micBtn.style.color = '';
+      }
+    };
   }
 
   async loadMessages(matchId) {
@@ -120,8 +170,18 @@ class ChatModule {
          <div class="original-text">${msg.original_text}</div>`
       : '';
 
+    let contentHtml = '';
+    if (msg.message_type === 'audio') {
+      contentHtml = `
+        <audio controls src="${msg.attachment_url}" style="max-width:200px;"></audio>
+        <div style="margin-top:8px;font-size:0.9rem;font-style:italic;">"${this.escapeHtml(displayText)}"</div>
+      `;
+    } else {
+      contentHtml = `<div class="bubble">${this.escapeHtml(displayText)}</div>`;
+    }
+
     el.innerHTML = `
-      <div class="bubble">${this.escapeHtml(displayText)}</div>
+      ${contentHtml}
       ${translationBadge}
       <div class="msg-meta">
         <span>${time}</span>
