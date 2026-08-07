@@ -475,10 +475,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('user-menu-dropdown')?.classList.toggle('hidden');
   });
 
-  document.getElementById('btn-logout')?.addEventListener('click', async () => {
-    try { await api.post('/auth/logout', {}); } catch {}
-    clearTokens();
-    window.location.href = '/index.html';
+  document.querySelectorAll('.btn-logout').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      try { await api.post('/auth/logout', {}); } catch {}
+      clearTokens();
+      window.location.href = '/index.html';
+    });
   });
 
   // Update nav badges

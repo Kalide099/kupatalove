@@ -241,10 +241,10 @@
     <footer class="landing-footer">
       <div class="footer-logo">💖 KupataLove</div>
       <div class="footer-links">
-        <a href="#" data-i18n="privacy">Privacy</a>
-        <a href="#" data-i18n="terms">Terms</a>
-        <a href="#" data-i18n="safety">Safety</a>
-        <a href="#" data-i18n="contact">Contact</a>
+        <a href="/privacy.html" data-i18n="privacy">Privacy</a>
+        <a href="/terms.html" data-i18n="terms">Terms</a>
+        <a href="/safety.html" data-i18n="safety">Safety</a>
+        <a href="/contact.html" data-i18n="contact">Contact</a>
       </div>
       <div class="footer-copy">© 2024 KupataLove. All rights reserved.</div>
     </footer>
@@ -314,6 +314,24 @@
     if (params.get('tab') === 'register') {
       window.location.href = '/auth.html?tab=register';
     }
+
+    // Phone buttons animation
+    const demoCard = document.getElementById('demo-card');
+    document.querySelector('.phone-btn-no')?.addEventListener('click', () => {
+      demoCard.style.transform = 'translate(-50px, 20px) rotate(-10deg)';
+      demoCard.style.opacity = '0';
+      setTimeout(() => { demoCard.style.transition = 'none'; demoCard.style.transform = 'translate(0, 0) rotate(0)'; demoCard.style.opacity = '1'; setTimeout(() => demoCard.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s', 50); }, 300);
+    });
+    document.querySelector('.phone-btn-yes')?.addEventListener('click', () => {
+      demoCard.style.transform = 'translate(50px, 20px) rotate(10deg)';
+      demoCard.style.opacity = '0';
+      setTimeout(() => { demoCard.style.transition = 'none'; demoCard.style.transform = 'translate(0, 0) rotate(0)'; demoCard.style.opacity = '1'; setTimeout(() => demoCard.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s', 50); }, 300);
+    });
+    document.querySelector('.phone-btn-super')?.addEventListener('click', () => {
+      demoCard.style.transform = 'translate(0, -50px) scale(1.1)';
+      demoCard.style.opacity = '0';
+      setTimeout(() => { demoCard.style.transition = 'none'; demoCard.style.transform = 'translate(0, 0) scale(1)'; demoCard.style.opacity = '1'; setTimeout(() => demoCard.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s', 50); }, 300);
+    });
   </script>
 </body>
 </html>
